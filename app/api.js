@@ -108,7 +108,7 @@ api.get('/add_article', function(req,res){
   parsed_title = {
     topic: req.param('topic'),
     title: req.param('title'),
-    date: Date.parse(req.param('date'))
+    date: Date.parse(req.param('date')),
     publisher: req.param('publisher'),
     publisher_url: req.param('publisher_url') ,
     content_html: req.param('content_html')
