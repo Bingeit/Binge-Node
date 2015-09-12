@@ -3,10 +3,26 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var config = require('./config.js');
 var app = express();
+var mongoose = require('mongoose')
 
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+
+mongoose.connect(config.database, function(err) {
+	if (err) {
+		console.log(err)
+	}
+	else console.log('Connected to database')
+});
+
+
+mongoose.connection.db.dropCollection('topicinfos', function(err, result) {
+        if (err) {
+            console.log(err)
+        }
+        else console.log('Collection dropped')
+    });
 
 var api = require('./app/api.js')
 // routes to api
