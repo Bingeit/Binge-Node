@@ -7,7 +7,8 @@ var BasicDataSchema = new Schema({
     title: String,
     date: Date,
     publisher: String,
-    source: String
+    publisher_url: String,
+    content_html: String
 })
 
 module.exports = mongoose.model('ArticlesInfo', BasicDataSchema);

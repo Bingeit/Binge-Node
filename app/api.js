@@ -72,4 +72,16 @@ api.get('/delete_topics_info', function(req, res) {
 });
 })
 
+api.get('/articles', function(req, res){
+  ArticlesInfo.find({}, function(err, articles) {
+    var articlesMap = {};
+
+  articles.forEach(function(article) {
+      articlesMap[article.topic] = article;
+    });
+
+    res.send(articlesMap);
+  });
+})
+
 module.exports = api;
