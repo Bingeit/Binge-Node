@@ -21,6 +21,7 @@ var list_of_topics = ["Game of Thrones", "Iron Man"];
 
 var topic_details = [];
 
+// Refresh topic information
 api.get('/update_topics_info', function(req, res) {
     console.log('Parsing and updating basic content')
     list_of_topics.forEach(function (topic) {
@@ -55,32 +56,50 @@ api.get('/update_topics_info', function(req, res) {
     });})
     res.send(JSON.stringify(true))
 })
-api.get('/topics', function(req, res){
-  TopicsInfo.find({}, function(err, topics) {
-    var topicsMap = {};
 
-  topics.forEach(function(topic) {
-      topicsMap[topic.title] = topic;
-    });
-
-    res.send(topicsMap);
-  });
-})
+// Reset TopicsInfo table
 api.get('/delete_topics_info', function(req, res) {
-    TopicInfo.remove({}, function(err) {
-       console.log('collection removed')
+    TopicsInfo.remove({}, function(err) {
+       console.log('topics collection removed')
 });
 })
 
+// Reset ArticlesInfo table
+api.get('/delete_articles_info', function(req, res) {
+    ArticlesInfo.remove({}, function(err) {
+       console.log('articles collection removed')
+});
+})
+
+// Returns information for a topic
+api.get('/topics', function(req, res){
+  topic = req.param('topic')
+
+  TopicsInfo.find({'title': topic}, function(err, topics) {
+    res.send(topics.pop());
+  });
+})
+
+// Returns all topics
+api.get('/all_topics', function(req, res){
+  TopicsInfo.find({}, function(err, topics) {
+    res.send(topics);
+  });
+})
+
+// Returns all articles for a certain topic
+api.get('/articles', function(req, res){
+  topic = req.param('topic')
+
+  ArticlesInfo.find({'topic': topic}, function(err, articles) {
+    res.send(articles.pop());
+  });
+})
+
+// Returns all articles
 api.get('/articles', function(req, res){
   ArticlesInfo.find({}, function(err, articles) {
-    var articlesMap = {};
-
-  articles.forEach(function(article) {
-      articlesMap[article.topic] = article;
-    });
-
-    res.send(articlesMap);
+    res.send(articles);
   });
 })
 
