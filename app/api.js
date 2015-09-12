@@ -25,13 +25,16 @@ api.get('/update_topic_info', function(req, res) {
     console.log('Parsing and updating basic content')
     list_of_topics.forEach(function (topic) {
             omdb.get({title: topic}, false, function(err,movie) {
+            console.log(movie);
             var parsed_title = {};
             parsed_title.title = movie.title;
             parsed_title.type = movie.type;
             parsed_title.plot = movie.plot;
             parsed_title.rating = movie.imdb.rating;
             parsed_title.cast = movie.actors;
+            parsed_title.poster = movie.poster;
             parsed_title.released = {};
+
             if (movie.type == 'series') {
                 if (movie.type.to == undefined) {
                 parsed_title.released = movie.year.from + ' -';

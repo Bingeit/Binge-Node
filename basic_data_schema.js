@@ -8,7 +8,8 @@ var BasicDataSchema = new Schema({
     rating: Number, 
     cast: Array,
     plot: String,
-    type: String  
-})
+    poster: Object,
+    type: String
+});
 
-module.exports = mongoose.model('TopicInfo', BasicDataSchema);
+module.exports = mongoose.model('TopicsInfo', BasicDataSchema);
