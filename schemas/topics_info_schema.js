@@ -3,12 +3,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var BasicDataSchema = new Schema({
-    title: String, 
+    title: String,
     released: String,
-    rating: Number, 
+    rating: Number,
     cast: Array,
     plot: String,
     type: String  
 })
 
-module.exports = mongoose.model('TopicInfo', BasicDataSchema);
+module.exports = mongoose.model('TopicsInfo', BasicDataSchema);

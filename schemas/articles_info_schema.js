@@ -5,9 +5,9 @@ var Schema = mongoose.Schema;
 var BasicDataSchema = new Schema({
     topic: String,
     title: String,
-    date: Date, 
+    date: Date,
     publisher: String,
     source: String
 })
 
-module.exports = mongoose.model('ArticleInfo', BasicDataSchema);
+module.exports = mongoose.model('ArticlesInfo', BasicDataSchema);

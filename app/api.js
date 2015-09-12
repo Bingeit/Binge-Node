@@ -1,8 +1,8 @@
 var config = require('../config');
 
-var TopicInfo = require('../schemas/topic_info_schema.js')
+var TopicsInfo = require('../schemas/topics_info_schema.js')
 
-var ArticleInfo = require('../schemas/article_info_schema.js')
+var ArticlesInfo = require('../schemas/articles_info_schema.js')
 
 var mongoose = require('mongoose');
 
