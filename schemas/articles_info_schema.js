@@ -5,11 +5,9 @@ var Schema = mongoose.Schema;
 var BasicDataSchema = new Schema({
     topic: String,
     title: String,
-    date: Date,
     publisher: String,
     publisher_url: String,
-    text: Array,
-    images: Array,
+    image_url: String,
     type: Number
 })
 
