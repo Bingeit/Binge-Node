@@ -13,7 +13,7 @@ var api = express.Router();
 api.get('/update', function(req, res) {
     console.log('Parsing and updating basic content')
     omdb.get({title: "Game of thrones"}, false, function(err,movie) {
-        console.log(movie);
+        res.send(movie);
     });
 })
 
