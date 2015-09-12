@@ -27,6 +27,7 @@ mongoose.connection.db.dropCollection('topicinfos', function(err, result) {
 var api = require('./app/api.js')
 // routes to api
 app.use('/api',api);
+app.use(express.static(__dirname + '/public'));
 
 app.listen(config.port, function(err) {
 	if (err) {
@@ -36,5 +37,3 @@ app.listen(config.port, function(err) {
 		console.log('Listening on '+ config.port)
 	}
 });
-
-

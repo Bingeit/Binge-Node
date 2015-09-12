@@ -1,6 +1,8 @@
 var config = require('../config');
 
-var TopicInfo = require('../basic_data_schema.js')
+var TopicInfo = require('../schemas/topic_info_schema.js')
+
+var ArticleInfo = require('../schemas/article_info_schema.js')
 
 var mongoose = require('mongoose');
 
@@ -48,16 +50,17 @@ api.get('/update_topic_info', function(req, res) {
             })
 
     });})
-    
+    res.send(JSON.stringify(true))
 })
 
 api.get('/delete_topic_info', function(req, res) {
-    TopicInfo.remove({}, function(err) { 
-       console.log('collection removed') 
+    TopicInfo.remove({}, function(err) {
+       console.log('collection removed')
 });
 })
 
+api.get('/update_article_info', function(req, res){
+
+})
+
 module.exports = api;
-
-
-
