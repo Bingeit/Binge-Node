@@ -16,11 +16,8 @@ mongoose.connect(config.database, function(err) {
 	else console.log('Connected to database')
 });
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 var api = require('./app/api.js')
+
 // routes to api
 app.use('/api',api);
 app.use(express.static(__dirname + '/public'));

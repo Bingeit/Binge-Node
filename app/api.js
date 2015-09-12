@@ -43,7 +43,7 @@ api.get('/update_topics_info', function(req, res) {
                 else parsed_title.released = movie.year.from + ' to ' + movie.year.to;
             }
             else parsed_title.released = movie.year;
-            var topic_details = new TopicInfo(parsed_title);
+            var topic_details = new TopicsInfo(parsed_title);
 
             topic_details.save(function (err) {
                 if (err) {
@@ -97,10 +97,30 @@ api.get('/articles', function(req, res){
 })
 
 // Returns all articles
-api.get('/articles', function(req, res){
+api.get('/all_articles', function(req, res){
   ArticlesInfo.find({}, function(err, articles) {
     res.send(articles);
   });
+})
+
+api.get('/add_article', function(req,res){
+  parsed_title = {
+    topic: req.param('topic'),
+    title: req.param('title'),
+    publisher: req.param('publisher'),
+    publisher_url: req.param('publisher_url') ,
+    content_html: req.param('content_html')
+  }
+
+  var topic_details = new ArticlesInfo(parsed_title);
+
+  topic_details.save(function (err) {
+      if (err) {
+          res.send(err)
+          return;
+      }
+      console.log({message: 'Topic details been added to MongoDB'})
+  })
 })
 
 module.exports = api;
