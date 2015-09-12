@@ -8,7 +8,9 @@ var BasicDataSchema = new Schema({
     date: Date,
     publisher: String,
     publisher_url: String,
-    content_html: String
+    text: Array,
+    images: Array,
+    type: Number
 })
 
 module.exports = mongoose.model('ArticlesInfo', BasicDataSchema);
