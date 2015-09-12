@@ -21,7 +21,7 @@ var list_of_topics = ["Game of Thrones", "Iron Man"];
 
 var topic_details = [];
 
-api.get('/update_topic_info', function(req, res) {
+api.get('/update_topics_info', function(req, res) {
     console.log('Parsing and updating basic content')
     list_of_topics.forEach(function (topic) {
             omdb.get({title: topic}, false, function(err,movie) {
@@ -55,15 +55,21 @@ api.get('/update_topic_info', function(req, res) {
     });})
     res.send(JSON.stringify(true))
 })
+api.get('/topics', function(req, res){
+  TopicsInfo.find({}, function(err, topics) {
+    var topicsMap = {};
 
-api.get('/delete_topic_info', function(req, res) {
+  topics.forEach(function(topic) {
+      topicsMap[topic.title] = topic;
+    });
+
+    res.send(topicsMap);
+  });
+})
+api.get('/delete_topics_info', function(req, res) {
     TopicInfo.remove({}, function(err) {
        console.log('collection removed')
 });
-})
-
-api.get('/update_article_info', function(req, res){
-
 })
 
 module.exports = api;

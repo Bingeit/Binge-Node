@@ -16,14 +16,6 @@ mongoose.connect(config.database, function(err) {
 	else console.log('Connected to database')
 });
 
-
-mongoose.connection.db.dropCollection('topicinfos', function(err, result) {
-        if (err) {
-            console.log(err)
-        }
-        else console.log('Collection dropped')
-    });
-
 var api = require('./app/api.js')
 // routes to api
 app.use('/api',api);
