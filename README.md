@@ -6,7 +6,7 @@
 <i>In development - Not yet fully functional</i>
 
 <h3>Return Topic Information</h3>
-Given a 'topic' parameter, it will return the associated topic information.
-'''
-binge.azurewebsites.net/api/topics?topic=Iron%20Man
-'''
+Given a `topic` parameter, it will return the associated topic information.
+```
+binge.azurewebsites.net/api/topics?topic=Your%20Topic
+```
