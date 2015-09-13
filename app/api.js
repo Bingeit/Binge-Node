@@ -31,6 +31,38 @@ var list_of_topics = [
 
 var topic_details = [];
 
+var request = require("request-promise")
+
+var parseString = require('xml2js').parseString;
+
+var fetchAndStoreArticles = function (topic) {
+request.get(encodeURI('https://news.google.com/news?q='+ topic +'&output=rss'))
+    .then(function (res) {
+        var cleanedString = res.replace("\ufeff", "");
+        parseString(cleanedString, function (err, result) {
+            var list_of_associated_articles = (result.rss.channel[0].item);
+            list_of_associated_articles.forEach(function (article) {
+                var parsed_article = {};
+                parsed_article.topic = topic
+                parsed_article.title = article.title[0]
+                parsed_article.publisher_url = article.link[0]
+                console.log(parsed_article)
+                var parsed_article = new ArticlesInfo(parsed_article)
+                parsed_article.save(function (err) {
+                    if (err) {
+                        res.send(err)
+                        return;
+                    }
+                    console.log({message: 'Article details been added to MongoDB'})
+                  })
+})})})}
+
+api.get('/fetch_articles', function(req, res) {
+    list_of_topics.forEach(function(topic) {
+        fetchAndStoreArticles(topic.name)
+    }
+)})
+
 api.get('/update_topics_info', function(req, res) {
     console.log('Parsing and updating basic content')
     list_of_topics.forEach(function (topic) {
