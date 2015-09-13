@@ -18,44 +18,18 @@ var api = express.Router();
 
 var list_of_topics = [
   {name: "Game of Thrones", type: 1},
+  {name: "Arrow", type: 1},
+  {name: "The Flash", type: 1},
   {name: "Iron Man", type: 1},
-  {name: "Presidential Election", type: 0}
+  {name: "Batman vs Superman", type: 1},
+  {name: "Golden State Warriors", type: 0},
+  {name: "New England Patriots", type: 0},
+  {name: "Toronto Blue Jays", type: 0},
+  {name: "Drums", type: 0},
+  {name: "Donald Trump", type: 0}
 ];
 
 var topic_details = [];
-
-
-var request = require("request-promise")
-
-var parseString = require('xml2js').parseString;
-
-var fetchAndStoreArticles = function (topic) {
-request.get(encodeURI('https://news.google.com/news?q='+ topic +'&output=rss'))
-    .then(function (res) {
-        var cleanedString = res.replace("\ufeff", "");
-        parseString(cleanedString, function (err, result) {
-            var list_of_associated_articles = (result.rss.channel[0].item);
-            list_of_associated_articles.forEach(function (article) {
-                var parsed_article = {};
-                parsed_article.topic = topic
-                parsed_article.title = article.title[0]
-                parsed_article.publisher_url = article.link[0]
-                console.log(parsed_article)   
-                var parsed_article = new ArticlesInfo(parsed_article)
-                parsed_article.save(function (err) {
-                    if (err) {
-                        res.send(err)
-                        return;
-                    }
-                    console.log({message: 'Article details been added to MongoDB'})
-                  })
-})})})}
-
-api.get('/fetch_articles', function(req, res) {
-    list_of_topics.forEach(function(topic) {
-        fetchAndStoreArticles(topic.name)
-    }
-)})
 
 api.get('/update_topics_info', function(req, res) {
     console.log('Parsing and updating basic content')
@@ -138,16 +112,37 @@ api.get('/all_topics', function(req, res){
 
 // Returns all articles for a certain topic
 api.get('/articles', function(req, res){
-  topic = req.param('topic')
+  if (typeof req.param('favorites') != 'undefined'){
+    articles = [];
+    topics = '(' + req.param('favorites').split(',').join('|') + ')';
 
-  ArticlesInfo.find({'topic': topic}, function(err, articles) {
-    res.send(articles.pop());
-  });
+    ArticlesInfo.find({'topic': new RegExp(topics)}, function(err, some_articles) {
+      articles.push(some_articles);
+      console.log(articles);
+      res.send(articles);
+    });
+  }
+  else {
+    topic = req.param('topic')
+
+    ArticlesInfo.find({'topic': topic}, function(err, articles) {
+      res.send(articles.pop());
+    });
+  }
 })
 
 api.get('/delete_topics_info', function(req, res) {
     delete_topics_info();
 })
+
+var request = require("request-promise")
+var parseString = require('xml2js').parseString;
+request.get('https://news.google.com/news?q=gameofthrones&output=rss')
+    .then(function (res) {
+        var cleanedString = res.replace("\ufeff", "");
+        parseString(cleanedString, function (err, result) {
+            console.log(result.rss.channel[0].item);
+})});
 
 
 // Returns all articles
