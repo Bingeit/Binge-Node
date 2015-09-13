@@ -16,43 +16,67 @@ var omdb = require('omdb');
 
 var api = express.Router();
 
-var list_of_topics = ["Game of Thrones", "Iron Man"];
-
+var list_of_topics = [
+  {name: "Game of Thrones", type: 1},
+  {name: "Iron Man", type: 1},
+  {name: "Presidential Election", type: 0}
+];
 
 var topic_details = [];
 
 api.get('/update_topics_info', function(req, res) {
     console.log('Parsing and updating basic content')
     list_of_topics.forEach(function (topic) {
-            omdb.get({title: topic}, false, function(err,movie) {
-            console.log(movie);
-            var parsed_title = {};
-            parsed_title.title = movie.title;
-            parsed_title.type = movie.type;
-            parsed_title.plot = movie.plot;
-            parsed_title.rating = movie.imdb.rating;
-            parsed_title.cast = movie.actors;
-            parsed_title.poster = movie.poster;
-            parsed_title.released = {};
+      var parsed_title = {};
+      // Query OMDB for information if movie or TV
+      if (topic.type == 1){
+        omdb.get({title: topic.name}, false, function(err,movie) {
+          console.log(movie);
+          parsed_title.title = movie.title;
+          parsed_title.type = movie.type;
+          parsed_title.plot = movie.plot;
+          parsed_title.rating = movie.imdb.rating;
+          parsed_title.cast = movie.actors;
+          parsed_title.poster = movie.poster;
+          parsed_title.released = {};
 
-            if (movie.type == 'series') {
-                if (movie.type.to == undefined) {
-                parsed_title.released = movie.year.from + ' -';
-                }
-                else parsed_title.released = movie.year.from + ' to ' + movie.year.to;
+          if (movie.type == 'series') {
+              if (movie.type.to == undefined) {
+              parsed_title.released = movie.year.from + ' -';
+              }
+              else parsed_title.released = movie.year.from + ' to ' + movie.year.to;
+          }
+          else parsed_title.released = movie.year;
+        });
+
+        // Make topic
+        console.log(parsed_title);
+        var topic_details = new TopicsInfo(parsed_title);
+
+        topic_details.save(function (err) {
+            if (err) {
+                res.send(err)
+                return;
             }
-            else parsed_title.released = movie.year;
-            var topic_details = new TopicsInfo(parsed_title);
+            console.log({message: 'Topic details been added to MongoDB'})
+        })
+      }
+      else {
+        parsed_title.title = topic.name;
 
-            topic_details.save(function (err) {
-                if (err) {
-                    res.send(err)
-                    return;
-                }
-                console.log({message: 'Topic details been added to MongoDB'})
-            })
+        // Make topic
+        console.log(parsed_title);
+        var topic_details = new TopicsInfo(parsed_title);
 
-    });})
+        topic_details.save(function (err) {
+            if (err) {
+                res.send(err)
+                return;
+            }
+            console.log({message: 'Topic details been added to MongoDB'})
+        })
+      }
+    });
     res.send(JSON.stringify(true))
 })
 
