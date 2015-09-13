@@ -20,7 +20,7 @@ GET http://binge.azurewebsites.net/api/all_topics
 Given a `topic` parameter, it will return the associated articles in an Array. `topic` is case-sensitive. To receive articles for more than one topic, make a comma separated list past using the `favorite` parameter. 
 ```
 GET http://binge.azurewebsites.net/api/articles?topic=Your%20Topic # Single Topic
-GET http://binge.azurewebsites.net/api/articles?topic=Topic%20One,Topic%20Two,Topic%20Three # Multiple Topic
+GET http://binge.azurewebsites.net/api/articles?favorite=Topic%20One,Topic%20Two,Topic%20Three # Multiple Topic
 ```
 <h3>Return All Article Information</h3>
 It will return the all article information in the database.
