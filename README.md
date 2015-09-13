@@ -5,8 +5,6 @@
 <h3>Update Topic Information</h3>
 Update and aggregate news content based on topics. Use the endpoint `fetch_articles` to request an aggregation of trending news based on Binge topics.
 
-<i>In development - Not yet fully functional</i>
-
 <h3>Return Topic Information</h3>
 Given a `topic` parameter, it will return the associated topic information. `topic` is case-sensitive.
 ```
