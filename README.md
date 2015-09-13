@@ -28,12 +28,12 @@ http://binge.azurewebsites.net/api/all_articles
 ```
 <h3>Add New Article</h3>
 Will add a new article given the necessary parameters:
-`topic` - Topic the article belongs to
-`title` - Title of the article
-`publisher` - Source publisher of article
-`publisher_url` - Article URL
-`image_url` - Preview image URL
-`type` - Type of article (0 - Text article, 1 - Video article)
+* `topic` - Topic the article belongs to
+* `title` - Title of the article
+* `publisher` - Source publisher of article
+* `publisher_url` - Article URL
+* `image_url` - Preview image URL
+* `type` - Type of article (0 - Text article, 1 - Video article)
 
 ```
 http://binge.azurewebsites.net/api/add_article?topic=Your%20Topic&title=Your%20Title&publisher=Publisher&publisher_url=Publisher%20Url&image_url=Image%20Url&type=0
